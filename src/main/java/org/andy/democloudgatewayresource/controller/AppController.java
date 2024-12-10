@@ -1,18 +1,29 @@
 package org.andy.democloudgatewayresource.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.andy.democloudgatewayresource.dto.UserRequestDTO;
+import org.andy.democloudgatewayresource.dto.UserinfoRequestDto;
+import org.andy.democloudgatewayresource.record.User;
+import org.andy.democloudgatewayresource.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
-@EnableMethodSecurity
 @Slf4j
 public class AppController {
+
+    private final UserService userService;
+
+    public AppController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/secret")
     public String secret() {
@@ -43,9 +54,30 @@ public class AppController {
                 "principal", jwtToken.getName(),
                 "access_token", jwtToken.getToken().getTokenValue(),
                 "authorities", authorities.toString(),
-                "scope",tokenAttributes.containsKey("scope") ?
+                "scope", tokenAttributes.containsKey("scope") ?
                         tokenAttributes.get("scope").toString() : ""
         );
     }
 
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getUsers() {
+        return ResponseEntity.ok(userService.getUsers());
+    }
+
+    @PostMapping("/users/add")
+    public ResponseEntity<User> createUser(@RequestBody UserRequestDTO userRequestDTO) {
+        return ResponseEntity.ok(userService.createUser(userRequestDTO));
+    }
+
+    @PutMapping("/users/update/{username}")
+    public ResponseEntity<?> updateUser(@PathVariable String username, @Validated @RequestBody UserinfoRequestDto userRequestDTO) {
+        userService.updateUser(username, userRequestDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/users/delete/{username}")
+    public ResponseEntity<?> deleteUser(@PathVariable String username) {
+        userService.deleteUser(username);
+        return ResponseEntity.ok().build();
+    }
 }
