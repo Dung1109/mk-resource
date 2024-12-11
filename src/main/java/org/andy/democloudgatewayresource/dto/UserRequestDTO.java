@@ -1,15 +1,21 @@
 package org.andy.democloudgatewayresource.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @Builder
 public class UserRequestDTO {
-    private String username;
-    private String password;
-    private boolean enabled;
+    private String fullName;
+    private String email;
+    private LocalDate dob;
+    private String phoneNumber;
     private String role;
+    private String address;
+    private String gender;
+    private String department;
+    private String note;
+    private String status;
 }

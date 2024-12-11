@@ -1,6 +1,7 @@
 package org.andy.democloudgatewayresource.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.andy.democloudgatewayresource.dto.UserCredentialsDTO;
 import org.andy.democloudgatewayresource.dto.UserRequestDTO;
 import org.andy.democloudgatewayresource.dto.UserinfoRequestDto;
 import org.andy.democloudgatewayresource.record.User;
@@ -65,8 +66,9 @@ public class AppController {
     }
 
     @PostMapping("/users/add")
-    public ResponseEntity<User> createUser(@RequestBody UserRequestDTO userRequestDTO) {
-        return ResponseEntity.ok(userService.createUser(userRequestDTO));
+    public ResponseEntity<UserCredentialsDTO> createUser(@RequestBody UserRequestDTO userRequest) {
+        UserCredentialsDTO credentials = userService.createUser(userRequest);
+        return ResponseEntity.ok(credentials);
     }
 
     @PutMapping("/users/update/{username}")
