@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
     public void sendRegistrationEmail(String email, String username, String password) {
-        Resend resend = new Resend("re_HB7eFKK2_N4VfYQGVUDLkj528cyNhzKha");
+        Resend resend = new Resend("re_4UdgmH4v_9xM7jGAfu11YV4pwYHZG8Fy5");
 
         CreateEmailOptions createEmailOptions = CreateEmailOptions.builder()
                 .from("IMS Team <admin@tayduong.works>")
