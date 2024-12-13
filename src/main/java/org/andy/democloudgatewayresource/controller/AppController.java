@@ -63,10 +63,15 @@ public class AppController {
         );
     }
 
+    @PutMapping("/users/update-status/{username}")
+    public ResponseEntity<?> updateUserStatus(@PathVariable String username, @RequestParam String status) {
+        userService.updateUserStatus(username, status);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/users/{username}")
     public ResponseEntity<UserinfoResponseDTO> getUser(@PathVariable String username) {
         UserinfoResponseDTO user = userService.getUserByUsername(username);
-        log.info("user: {}", user);
         return ResponseEntity.ok(user);
     }
 

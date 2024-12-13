@@ -286,4 +286,10 @@ public class UserService {
                 .where(USERS.USERNAME.eq(username))
                 .fetchOneInto(UserinfoResponseDTO.class);
     }
+
+    public void updateUserStatus(String username, String status) {
+        dslContext.update(USERS)
+                .set(USERS.ENABLED, status.equals("active"))
+                .where(USERS.USERNAME.eq(username)).execute();
+    }
 }
